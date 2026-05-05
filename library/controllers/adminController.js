@@ -1,5 +1,6 @@
 const express = require("express")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 const adminModel = require("../models/adminModel")
 
 const registerController = async (req, res) => {
@@ -37,26 +38,30 @@ const registerController = async (req, res) => {
 
 
 const loginController = async (req, res) => {
-    try{
-        const {username, password} = req.body
+    try {
+        const { username, password } = req.body
 
         const adminCheck = await adminModel.findOne({ username })
 
-        if(!adminCheck){
-            return res.status(404).json({message: "Admin not found"})
+        if (!adminCheck) {
+            return res.status(404).json({ message: "Admin not found" })
         }
 
         const passwordCheck = await bcrypt.compare(password, adminCheck.password)
 
-        if(!passwordCheck){
-            return res.status(400).json({message: "Invalid password"})
+        if (!passwordCheck) {
+            return res.status(400).json({ message: "Invalid password" })
         }
 
-        res.status(200).json({message:"Login successful"})
-    }catch(err){
-        res.status(500).json({message: "Login error", Error: err.message})
+        const token = jwt.sign({ id: adminCheck._id }, process.env.JWT_SECRET_KEY)
+
+        res.status(200).json({
+            message: "Login successful",
+            Token: token
+        })
+    } catch (err) {
+        res.status(500).json({ message: "Login error", Error: err.message })
     }
 }
 
-module.exports =  {registerController, loginController}
- 
+module.exports = { registerController, loginController }
