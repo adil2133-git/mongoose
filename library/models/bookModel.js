@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const bookModel = mongoose.Schema({
+const bookSchema = mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -16,3 +16,7 @@ const bookModel = mongoose.Schema({
         default: true
     }
 }, { timeStamps: true })
+
+const bookModel = mongoose.model("Book", bookSchema)
+
+module.exports = bookModel
