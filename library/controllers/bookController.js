@@ -83,14 +83,31 @@ const updateBook = async (req, res) => {
             }
         )
 
-    if (!updatedBook) {
-        return res.status(404).json({ message: "Book not found" })
+        if (!updatedBook) {
+            return res.status(404).json({ message: "Book not found" })
+        }
+
+        res.status(200).json({ message: "Book updated successfully", updatedBook })
+    } catch (err) {
+        res.status(500).json({ message: "Error updating book", Error: err.message })
     }
-
-    res.status(200).json({ message: "Book updated successfully", updatedBook })
-}catch (err) {
-    res.status(500).json({ message: "Error updating book", Error: err.message })
-}
 }
 
-module.exports = { addBook, getAllBooks, getBookById, updateBook }
+
+const deleteBook = async (req, res) => {
+    try{
+        const {id} = req.params
+
+        const book = await bookModel.findByIdAndDelete(id)
+
+        if(!book){
+            return res.status(404).json("Book not found")
+        }
+
+        res.status(200).json({message: "Book deleted successfully", })
+    }catch(err){
+        res.status(500).json({message: "Error in Book deletion", Error: err.message})
+    }
+}
+
+module.exports = { addBook, getAllBooks, getBookById, updateBook, deleteBook }
