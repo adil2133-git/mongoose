@@ -22,6 +22,8 @@ const employeeSchema = mongoose.Schema({
         type: Date,
         default: Date.now()
     }
-}, {timestamp: true})
+}, {timestamps: true})
 
-module.exports = employeeSchema
+const employeeModel = mongoose.model("employee", employeeSchema)
+
+module.exports = employeeModel
