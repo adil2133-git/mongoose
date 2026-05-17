@@ -4,10 +4,12 @@ const app = express()
 
 const connectDB = require("./config/db")
 const adminRoutes = require("./routes/adminRoute")
+const productRoutes = require("./routes/productRoute")
 
 app.use(express.json())
 
 app.use("/api/auth", adminRoutes)
+app.use("/api", productRoutes)
 
 connectDB()
 
