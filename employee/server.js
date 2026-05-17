@@ -12,7 +12,7 @@ const app = express()
 app.use(express.json())
 
 app.use("/api/admin", adminRoute)
-app.use("/api", employeeRoute)
+app.use("/api/employee", employeeRoute)
 
 connectDB()
 
