@@ -1,6 +1,6 @@
 const employeeSchema = require("../model/employeeSchema")
 
-const addEmployee = (req, res) => {
+const addEmployee = async (req, res) => {
     try{
         const {name, email, department, salary} = req.body
 
